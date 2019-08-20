@@ -2,6 +2,7 @@ package com.kevin.springdata.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 类名: Person<br/>
@@ -19,6 +20,7 @@ public class Person {
     private String lastName;
     private String email;
     private Date birth;
+    private Address address;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +54,16 @@ public class Person {
 
     public void setBirth(Date birth) {
         this.birth = birth;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ADDRESS_ID")
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

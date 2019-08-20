@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,5 +32,32 @@ public class HelloWorldApplicationTests {
     public void testGetByLastName() {
         Person person = personRepository.getByLastName("kevin");
         System.out.println(person);
+    }
+
+    @Test
+    public void testGetByLastNameStartingWithAndIdLessThan() {
+        List<Person> personList = personRepository
+                .getByLastNameStartingWithAndIdLessThan("ke", 10);
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetByLastNameEndingWithAndIdLessThan() {
+        List<Person> personList = personRepository
+                .getByLastNameEndingWithAndIdLessThan("vin", 10);
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetByEmailInAndBirthLessThan() {
+        List<Person> personList = personRepository.getByEmailInAndBirthLessThan(
+                Arrays.asList("admin@126.com", "test@126.com"), new Date());
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetByAddressIdGreaterThan() {
+        List<Person> personList = personRepository.getByAddressIdGreaterThan(1);
+
     }
 }
