@@ -21,6 +21,7 @@ public class Person {
     private String email;
     private Date birth;
     private Address address;
+    private int addressId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +67,15 @@ public class Person {
         this.address = address;
     }
 
+    @Column(name = "ADD_ID")
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -73,6 +83,7 @@ public class Person {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", birth=" + birth +
+                ", address=" + address +
                 '}';
     }
 }
