@@ -36,5 +36,9 @@ public interface PersonRepository extends Repository<Person, Integer> {
     List<Person> getByEmailInAndBirthLessThan(List<String> emails, Date birth);
 
     // WHERE a.id > ?
+    List<Person> getByAddressIdGreaterThan(Integer id);
+
     List<Person> getByAddress_IdGreaterThan(Integer id);
+
+
 }

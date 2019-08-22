@@ -57,6 +57,12 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testGetByAddressIdGreaterThan() {
+        List<Person> personList = personRepository.getByAddressIdGreaterThan(1);
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetByAddress_IdGreaterThan() {
         List<Person> personList = personRepository.getByAddress_IdGreaterThan(1);
         personList.forEach(System.out::println);
     }

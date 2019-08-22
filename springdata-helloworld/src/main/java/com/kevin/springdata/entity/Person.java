@@ -67,7 +67,7 @@ public class Person {
         this.address = address;
     }
 
-    @Column(name = "ADD_ID")
+    @Column(name = "ADDR_ID")
     public int getAddressId() {
         return addressId;
     }
