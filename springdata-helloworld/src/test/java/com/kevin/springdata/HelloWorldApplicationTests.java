@@ -66,4 +66,50 @@ public class HelloWorldApplicationTests {
         List<Person> personList = personRepository.getByAddress_IdGreaterThan(1);
         personList.forEach(System.out::println);
     }
+
+    @Test
+    public void testGetMaxIdPerson() {
+        Person person = personRepository.getMaxIdPerson();
+        System.out.println(person);
+    }
+
+    @Test
+    public void testQueryParamsByPlaceholder() {
+        List<Person> personList = personRepository
+                .queryParamsByPlaceholder("kevin", "kevin@126.com");
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testQueryParamsByNamedParameter() {
+        List<Person> personList = personRepository
+                .queryParamsByNamedParameter("kevin", "kevin@126.com");
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void queryParamsLike() {
+        List<Person> personList = personRepository
+                .queryParamsLike("ke%", "%@126.com");
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void queryParamsLike2() {
+        List<Person> personList = personRepository
+                .queryParamsLike2("ke", "@126.com");
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void queryParamsLike3() {
+        List<Person> personList = personRepository
+                .queryParamsLike3("ke", "@126.com");
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetTotalCount() {
+        System.out.println(personRepository.getTotalCount());
+    }
 }

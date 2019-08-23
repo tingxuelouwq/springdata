@@ -21,7 +21,7 @@ public class Person {
     private String email;
     private Date birth;
     private Address address;
-    private int addressId;
+    private Integer addressId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,11 +68,11 @@ public class Person {
     }
 
     @Column(name = "ADDR_ID")
-    public int getAddressId() {
+    public Integer getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(int addressId) {
+    public void setAddressId(Integer addressId) {
         this.addressId = addressId;
     }
 
@@ -84,6 +84,7 @@ public class Person {
                 ", email='" + email + '\'' +
                 ", birth=" + birth +
                 ", address=" + address +
+                ", addressId=" + addressId +
                 '}';
     }
 }
