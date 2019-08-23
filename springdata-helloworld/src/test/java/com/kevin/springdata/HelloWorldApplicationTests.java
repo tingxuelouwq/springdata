@@ -2,6 +2,7 @@ package com.kevin.springdata;
 
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
+import com.kevin.springdata.service.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class HelloWorldApplicationTests {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonService personService;
 
     @Test
     public void contextLoads() {
@@ -111,5 +115,10 @@ public class HelloWorldApplicationTests {
     @Test
     public void testGetTotalCount() {
         System.out.println(personRepository.getTotalCount());
+    }
+
+    @Test
+    public void testUpdatePersonEmail() {
+        personService.updatePersonEmail(1, "tttx@126.com");
     }
 }

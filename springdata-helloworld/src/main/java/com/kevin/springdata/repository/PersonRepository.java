@@ -1,6 +1,7 @@
 package com.kevin.springdata.repository;
 
 import com.kevin.springdata.entity.Person;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -68,4 +69,12 @@ public interface PersonRepository extends Repository<Person, Integer> {
     // 设置nativeQuery=true即可使用原生SQL查询
     @Query(value = "SELECT count(1) FROM t_person", nativeQuery = true)
     long getTotalCount();
+
+    // @Query注解结合@Modifying注解，可以通过JPQL完成UPDATE和DELETE操作
+    // 注意：1. JPQL不支持INSERT；2. UPDATE和DELETE操作需要使用事务
+    // 默认情况下，SpringData的每个方法上都有事务，但都是一个只读事务，不能完成修改操作，
+    // 如果要改变SpringData提供的事务默认方式，可以在方法上注解@Transactinoal声明
+    @Modifying
+    @Query("UPDATE Person p SET p.email = :email WHERE id = :id")
+    void updatePersonEmail(Integer id, String email);
 }
