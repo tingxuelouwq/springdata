@@ -1,8 +1,15 @@
 package com.kevin.springdata.repository;
 
+import com.kevin.springdata.dao.PersonDao;
 import com.kevin.springdata.entity.Person;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -20,7 +27,8 @@ import java.util.List;
  * 2. 如果一个接口继承了Repository，则该接口会被IOC容器识别为一个Repository Bean<br/>
  * 3. 你也可以通过@RepositoryDefinition注解来替代继承Repository接口<br/>
  */
-public interface PersonRepository extends Repository<Person, Integer> {
+public interface PersonRepository extends JpaRepository<Person, Integer>,
+        JpaSpecificationExecutor<Person>, PersonDao {
 
     // 根据lastName获取Person
     Person getByLastName(String lastName);
@@ -77,4 +85,7 @@ public interface PersonRepository extends Repository<Person, Integer> {
     @Modifying
     @Query("UPDATE Person p SET p.email = :email WHERE id = :id")
     void updatePersonEmail(Integer id, String email);
+
+    @Query("SELECT p FROM Person p WHERE id > :id")
+    Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
 }

@@ -1,10 +1,12 @@
 package com.kevin.springdata.service;
 
+import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * 类名: PersonService<br/>
@@ -23,5 +25,10 @@ public class PersonService {
     @Transactional
     public void updatePersonEmail(Integer id, String email) {
         personRepository.updatePersonEmail(id, email);
+    }
+
+    @Transactional
+    public void saveAll(List<Person> persons) {
+        personRepository.saveAll(persons);
     }
 }
