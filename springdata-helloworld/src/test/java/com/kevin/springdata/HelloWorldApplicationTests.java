@@ -16,10 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.criteria.*;
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -135,7 +133,7 @@ public class HelloWorldApplicationTests {
         for (int i = 'a'; i <= 'z'; i++) {
             Person person = new Person();
             person.setAddressId(i + 1);
-            person.setBirth(new Date());
+            person.setBirth(LocalDateTime.now());
             person.setEmail((char) i + "" + (char) i + "@126.com");
             person.setLastName((char) i + "" + (char) i);
             persons.add(person);
@@ -165,7 +163,7 @@ public class HelloWorldApplicationTests {
     @Test
     public void testSaveAndFlush() {
         Person person = new Person();
-        person.setBirth(new Date());
+        person.setBirth(LocalDateTime.now());
         person.setEmail("over@126.com");
         person.setLastName("over2");
         person.setId(27);
@@ -173,12 +171,7 @@ public class HelloWorldApplicationTests {
         System.out.println(person == person1);
     }
 
-    /**
-     * 目标：实现带查询条件(id>5)的分页
-     * 实现：调用JpaSpecificationExecutor的Page<T> findAll(@Nullable Specification<T> spec, Pageable pageable);
-     * Specification: 封装了JPA Criteria的查询条件
-     * Pageable: 封装了请求分页的信息
-     */
+    // 目标：实现带查询条件(id>5)的分页
     @Test
     public void testJpaSpecificationExecutor() {
         int pageNo = 3;
@@ -187,18 +180,7 @@ public class HelloWorldApplicationTests {
         Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "email");
         Sort sort = Sort.by(order1, order2);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        // 通常使用Specification的匿名内部类
         Specification<Person> spec = new Specification<Person>() {
-            /**
-             *
-             * @param root  代表查询的实体类
-             * @param query 可以从中得到Root对象，即告知JPA Criteria要查询哪一个实体类，
-             *              还可以来添加查询条件，还可以结合EntityManager对象得到最终查
-             *              询的TypedQuery对象
-             * @param criteriaBuilder   用于创建Criteria相关对象的工厂，可以从中获取
-             *                          到Predicate对象
-             * @return
-             */
             @Override
             public Predicate toPredicate(Root<Person> root,
                                          CriteriaQuery<?> query,
@@ -235,5 +217,58 @@ public class HelloWorldApplicationTests {
         System.out.println("当前第几页: " + page.getNumber());
         System.out.println("当前页面的List: " + page.getContent());
         System.out.println("当前页面的记录数: " + page.getNumberOfElements());
+    }
+
+    @Test
+    public void testFindByCondition() {
+        Specification<Person> spec = new Specification<Person>() {
+            @Override
+            public Predicate toPredicate(Root<Person> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                Path<String> lastName = root.get("lastName");
+                Predicate predicate = criteriaBuilder.equal(lastName, "kevin");
+                return predicate;
+            }
+        };
+        Optional<Person> optionalPerson = personRepository.findOne(spec);
+        if (optionalPerson.isPresent()) {
+            System.out.println(optionalPerson.get());
+        }
+    }
+
+    @Test
+    public void testFindBySeveralCondition() {
+        Specification<Person> spec = new Specification<Person>() {
+            @Override
+            public Predicate toPredicate(Root<Person> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                Path<String> lastName = root.get("lastName");
+                Path<Integer> id = root.get("id");
+                Predicate p1 = criteriaBuilder.equal(lastName, "kevin");
+                Predicate p2 = criteriaBuilder.equal(id, 1);
+                Predicate and = criteriaBuilder.and(p1, p2);
+                return and;
+            }
+        };
+        Optional<Person> optionalPerson = personRepository.findOne(spec);
+        if (optionalPerson.isPresent()) {
+            System.out.println(optionalPerson.get());
+        }
+    }
+
+    @Test
+    public void testLike() {
+        Specification<Person> spec = new Specification<Person>() {
+            @Override
+            public Predicate toPredicate(Root<Person> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                Path<String> lastName = root.get("lastName");
+                Predicate like = criteriaBuilder.like(lastName, "%ke%");
+                return like;
+            }
+        };
+        Sort sort = Sort.by(Sort.Direction.DESC, "lastName");
+        List<Person> persons = personRepository.findAll(spec, sort);
+        persons.forEach(System.out::println);
     }
 }

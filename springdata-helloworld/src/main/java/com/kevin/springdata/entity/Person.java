@@ -1,6 +1,8 @@
 package com.kevin.springdata.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class Person {
     private Integer id;
     private String lastName;
     private String email;
-    private Date birth;
+    private LocalDateTime birth;
     private Address address;
     private Integer addressId;
 
@@ -49,11 +51,11 @@ public class Person {
         this.email = email;
     }
 
-    public Date getBirth() {
+    public LocalDateTime getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(LocalDateTime birth) {
         this.birth = birth;
     }
 
