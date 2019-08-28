@@ -1,6 +1,8 @@
 package com.kevin.springdata.repository;
 
 import com.kevin.springdata.dao.PersonDao;
+import com.kevin.springdata.dto.PersonAddress;
+import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -88,4 +90,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT p FROM Person p WHERE id > :id")
     Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
+
+    @Query("SELECT new com.kevin.springdata.dto.PersonAddress(p.lastName, p.address) FROM Person p WHERE p.address = :address")
+    Page<PersonAddress> findByAddress(@Param("address") Address address, Pageable pageable);
 }
