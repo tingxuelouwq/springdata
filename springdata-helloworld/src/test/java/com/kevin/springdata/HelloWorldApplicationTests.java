@@ -1,6 +1,7 @@
 package com.kevin.springdata;
 
 import com.kevin.springdata.dto.PersonAddress;
+import com.kevin.springdata.dto.PersonAddress2;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
@@ -294,6 +295,29 @@ public class HelloWorldApplicationTests {
         list.forEach(personAddress -> {
             System.out.println(personAddress.getLastName());
             System.out.println(personAddress.getAddress());
+        });
+    }
+
+    @Test
+    public void testFindByAddress2() {
+        Address address = new Address();
+        address.setId(1);
+        int pageNo = 0;
+        int pageSize = 5;
+        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "id");
+        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "email");
+        Sort sort = Sort.by(order1, order2);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<PersonAddress2> page = personRepository.findByAddress2(address, pageable);
+        System.out.println("总记录数: " + page.getTotalElements());
+        System.out.println("总页数: " + page.getTotalPages());
+        System.out.println("当前第几页: " + page.getNumber());
+        System.out.println("当前页面的List: " + page.getContent());
+        System.out.println("当前页面的记录数: " + page.getNumberOfElements());
+        List<PersonAddress2> list = page.getContent();
+        list.forEach(personAddress2 -> {
+            System.out.println(personAddress2.getLastName());
+            System.out.println(personAddress2.getAddress());
         });
     }
 }
