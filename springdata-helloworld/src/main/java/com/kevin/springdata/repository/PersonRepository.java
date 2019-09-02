@@ -88,4 +88,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT p FROM Person p WHERE id > :id")
     Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
+
+    @Query("SELECT p FROM Person p WHERE id IN (:ids)")
+    Page<Person> pageByIdIn(@Param("ids") List<Integer> ids, Pageable pageable);
 }

@@ -271,4 +271,21 @@ public class HelloWorldApplicationTests {
         List<Person> persons = personRepository.findAll(spec, sort);
         persons.forEach(System.out::println);
     }
+
+    @Test
+    public void testPageByIdIn() {
+        List<Integer> ids = Arrays.asList(1, 2);
+        int pageNo = 0;
+        int pageSize = 5;
+        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "id");
+        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "email");
+        Sort sort = Sort.by(order1, order2);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Person> page = personRepository.pageByIdIn(ids, pageable);
+        System.out.println("总记录数: " + page.getTotalElements());
+        System.out.println("总页数: " + page.getTotalPages());
+        System.out.println("当前第几页: " + page.getNumber());
+        System.out.println("当前页面的List: " + page.getContent());
+        System.out.println("当前页面的记录数: " + page.getNumberOfElements());
+    }
 }
