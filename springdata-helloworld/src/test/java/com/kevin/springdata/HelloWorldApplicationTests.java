@@ -337,4 +337,11 @@ public class HelloWorldApplicationTests {
         System.out.println("当前页面的List: " + page.getContent());
         System.out.println("当前页面的记录数: " + page.getNumberOfElements());
     }
+
+    @Test
+    public void testFindByIf() {
+        String email = null;
+        boolean isGroupScrap = true;
+        System.out.println(personRepository.findByIf(email, isGroupScrap));
+    }
 }

@@ -100,4 +100,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT p FROM Person p WHERE id IN (:ids)")
     Page<Person> pageByIdIn(@Param("ids") List<Integer> ids, Pageable pageable);
+
+    @Query(value = "SELECT COUNT(*) FROM t_person p WHERE IF(:email != null, email = :email, 1 = 1) AND IF(:isGroupScrap, email = '', 1 = 1)", nativeQuery = true)
+    int findByIf(@Param("email") String email, @Param("isGroupScrap") boolean isGroupScrap);
 }
