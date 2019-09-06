@@ -3,7 +3,6 @@ package com.kevin.springdata.repository;
 import com.kevin.springdata.dao.PersonDao;
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
-import com.kevin.springdata.dto.PersonQuery;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import org.springframework.data.domain.Page;
@@ -12,6 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
@@ -101,7 +103,4 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query(value = "SELECT COUNT(*) FROM t_person p WHERE IF(:email != null, email = :email, 1 = 1) AND IF(:isGroupScrap, email = '', 1 = 1)", nativeQuery = true)
     int findByIf(@Param("email") String email, @Param("isGroupScrap") boolean isGroupScrap);
-
-    @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, addr.city AS city FROM t_person p INNER JOIN t_address addr ON p.address_id = addr.id AND p.address_id = :addressId")
-    List<PersonQuery> query(@Param("addressId") Integer addressId);
 }

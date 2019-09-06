@@ -2,7 +2,6 @@ package com.kevin.springdata;
 
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
-import com.kevin.springdata.dto.PersonQuery;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
@@ -271,7 +270,6 @@ public class HelloWorldApplicationTests {
                 return like;
             }
         };
-
         Sort sort = Sort.by(Sort.Direction.DESC, "lastName");
         List<Person> persons = personRepository.findAll(spec, sort);
         persons.forEach(System.out::println);
@@ -345,13 +343,5 @@ public class HelloWorldApplicationTests {
         String email = null;
         boolean isGroupScrap = true;
         System.out.println(personRepository.findByIf(email, isGroupScrap));
-    }
-
-    @Test
-    public void test() {
-        List<PersonQuery> list = personRepository.query(Integer.valueOf(1));
-        list.forEach(personQuery -> {
-            System.out.println(personQuery.getLastName() + " " + personQuery.getCity());
-        });
     }
 }
