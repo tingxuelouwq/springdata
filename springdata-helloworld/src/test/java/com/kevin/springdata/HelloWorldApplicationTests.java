@@ -347,9 +347,16 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
-    public void testQueryForResult() {
+    public void testQueryForSQL() {
         Address address = new Address();
         address.setId(1);
-        personRepository.queryForResult(address);
+        personRepository.queryForSQL(address);
+    }
+
+    @Test
+    public void testQueryForHQL() {
+        Address address = new Address();
+        address.setId(1);
+        personRepository.queryForHQL(address);
     }
 }

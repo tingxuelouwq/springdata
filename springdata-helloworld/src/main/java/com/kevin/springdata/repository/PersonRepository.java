@@ -4,6 +4,7 @@ import com.kevin.springdata.dao.PersonDao;
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
 import com.kevin.springdata.dto.PersonQuery;
+import com.kevin.springdata.dto.PersonQuery2;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import org.springframework.data.domain.Page;
@@ -103,5 +104,8 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     int findByIf(@Param("email") String email, @Param("isGroupScrap") boolean isGroupScrap);
 
     @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, addr.city FROM t_person p INNER JOIN t_address addr ON p.address_id = addr.id AND p.address_id = :#{#address.id}")
-    List<PersonQuery> queryForResult(@Param("address") Address address);
+    List<PersonQuery> queryForSQL(@Param("address") Address address);
+
+    @Query("SELECT new com.kevin.springdata.dto.PersonQuery2(p.lastName, addr.city) FROM  Person p INNER JOIN Address addr ON p.address.id = addr.id AND p.address.id = :#{#address.id}")
+    List<PersonQuery2> queryForHQL(@Param("address") Address address);
 }
