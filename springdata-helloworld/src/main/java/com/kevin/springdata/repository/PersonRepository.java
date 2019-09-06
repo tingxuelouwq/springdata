@@ -102,6 +102,6 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     @Query(value = "SELECT COUNT(*) FROM t_person p WHERE IF(:email != null, email = :email, 1 = 1) AND IF(:isGroupScrap, email = '', 1 = 1)", nativeQuery = true)
     int findByIf(@Param("email") String email, @Param("isGroupScrap") boolean isGroupScrap);
 
-    @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, addr.city AS city FROM t_person p INNER JOIN t_address addr ON p.address_id = addr.id AND p.address_id = :addressId")
-    List<PersonQuery> queryForResult(@Param("addressId") Integer addressId);
+    @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, addr.city FROM t_person p INNER JOIN t_address addr ON p.address_id = addr.id AND p.address_id = :#{#address.id}")
+    List<PersonQuery> queryForResult(@Param("address") Address address);
 }

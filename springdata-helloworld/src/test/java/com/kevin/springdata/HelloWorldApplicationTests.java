@@ -348,9 +348,8 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testQueryForResult() {
-        List<PersonQuery> list = personRepository.queryForResult(Integer.valueOf(1));
-        list.forEach(personQuery -> {
-            System.out.println(personQuery.getLastName() + " " + personQuery.getCity());
-        });
+        Address address = new Address();
+        address.setId(1);
+        personRepository.queryForResult(address);
     }
 }
