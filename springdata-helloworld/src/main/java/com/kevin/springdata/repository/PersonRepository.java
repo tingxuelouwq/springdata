@@ -106,6 +106,14 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, addr.city FROM t_person p INNER JOIN t_address addr ON p.address_id = addr.id AND p.address_id = :#{#address.id}")
     List<PersonQuery> queryForSQL(@Param("address") Address address);
 
-    @Query("SELECT new com.kevin.springdata.dto.PersonQuery2(p.lastName, addr.city) FROM  Person p INNER JOIN Address addr ON p.address.id = addr.id AND p.address.id = :#{#address.id}")
+    @Query("SELECT new com.kevin.springdata.dto.PersonQuery2(p.lastName, addr.city) FROM  Person p" +
+            " INNER JOIN Address addr ON p.address.id = addr.id" +
+            " AND p.address.id = :#{#address.id}")
     List<PersonQuery2> queryForHQL(@Param("address") Address address);
+
+    @Query("SELECT p FROM Person p WHERE p.id IN (:ids)")
+    List<Person> queryForIn(List<Integer> ids);
+
+    @Query("SELECT p FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
+    List<Person> queryForNull(Address address);
 }

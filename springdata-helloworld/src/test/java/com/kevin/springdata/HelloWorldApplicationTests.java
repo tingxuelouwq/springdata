@@ -359,4 +359,18 @@ public class HelloWorldApplicationTests {
         address.setId(1);
         personRepository.queryForHQL(address);
     }
+
+    @Test
+    public void testQueryForIn() {
+        List<Person> personList = personRepository.queryForIn(Arrays.asList(1, 2));
+        personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testQueryForNull() {
+        Address address = new Address();
+        address.setId(null);
+        List<Person> personList = personRepository.queryForNull(address);
+        personList.forEach(System.out::println);
+    }
 }
