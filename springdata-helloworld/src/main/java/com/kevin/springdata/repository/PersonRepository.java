@@ -1,10 +1,7 @@
 package com.kevin.springdata.repository;
 
 import com.kevin.springdata.dao.PersonDao;
-import com.kevin.springdata.dto.PersonAddress;
-import com.kevin.springdata.dto.PersonAddress2;
-import com.kevin.springdata.dto.PersonQuery;
-import com.kevin.springdata.dto.PersonQuery2;
+import com.kevin.springdata.dto.*;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import org.springframework.data.domain.Page;
@@ -116,4 +113,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT p FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
     List<Person> queryForNull(Address address);
+
+    @Query("SELECT new com.kevin.springdata.dto.PerAddr(p.lastName, p.address.id, p.address.province, p.address.city) FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
+    List<PerAddr> queryForEncapsulate(Address address);
 }

@@ -1,5 +1,6 @@
 package com.kevin.springdata;
 
+import com.kevin.springdata.dto.PerAddr;
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
 import com.kevin.springdata.dto.PersonQuery;
@@ -372,5 +373,13 @@ public class HelloWorldApplicationTests {
         address.setId(null);
         List<Person> personList = personRepository.queryForNull(address);
         personList.forEach(System.out::println);
+    }
+
+    @Test
+    public void testQueryForEncapsulate() {
+        Address address = new Address();
+        address.setId(1);
+        List<PerAddr> list = personRepository.queryForEncapsulate(address);
+        list.forEach(System.out::println);
     }
 }
