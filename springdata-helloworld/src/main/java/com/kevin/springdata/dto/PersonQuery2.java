@@ -13,9 +13,14 @@ public class PersonQuery2 {
     private String lastName;
     private String city;
 
-    public PersonQuery2(String lastName, String city) {
-        this.lastName = lastName;
+//    public PersonQuery2(String lastName, String city) {
+//        this.lastName = lastName;
+//        this.city = city;
+//    }
+
+    public PersonQuery2(String city, String lastName) {
         this.city = city;
+        this.lastName = lastName;
     }
 
     public String getLastName() {
