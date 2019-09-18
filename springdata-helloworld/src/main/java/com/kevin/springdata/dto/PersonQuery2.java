@@ -38,4 +38,12 @@ public class PersonQuery2 {
     public void setCity(String city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "PersonQuery2{" +
+                "lastName='" + lastName + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,6 @@
 package com.kevin.springdata;
 
-import com.kevin.springdata.dto.PerAddr;
-import com.kevin.springdata.dto.PersonAddress;
-import com.kevin.springdata.dto.PersonAddress2;
-import com.kevin.springdata.dto.PersonQuery;
+import com.kevin.springdata.dto.*;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
@@ -359,6 +356,14 @@ public class HelloWorldApplicationTests {
         Address address = new Address();
         address.setId(1);
         personRepository.queryForHQL(address);
+    }
+
+    @Test
+    public void testQueryForHQL2() {
+        Address address = new Address();
+        address.setCity("Bei");
+        List<PersonQuery2> list = personRepository.queryForHQL2(address);
+        list.forEach(System.out::println);
     }
 
     @Test
