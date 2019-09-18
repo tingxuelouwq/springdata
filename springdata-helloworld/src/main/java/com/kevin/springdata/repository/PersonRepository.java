@@ -108,8 +108,11 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
             " AND p.address.id = :#{#address.id}")
     List<PersonQuery2> queryForHQL(@Param("address") Address address);
 
-    @Query("SELECT p FROM Person p WHERE p.id IN (:ids)")
+    @Query("SELECT p FROM Person p WHERE p.id IN :ids")
     List<Person> queryForIn(List<Integer> ids);
+
+    @Query("SELECT p FROM Person p WHERE COALESCE(:ids, NULL) IS NULL OR p.id IN :ids")
+    List<Person> queryForIn2(List<Integer> ids);
 
     @Query("SELECT p FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
     List<Person> queryForNull(Address address);

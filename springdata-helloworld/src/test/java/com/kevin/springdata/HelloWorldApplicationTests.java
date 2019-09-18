@@ -368,6 +368,12 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testQueryForIn2() {
+        List<Person> personList = personRepository.queryForIn2(Arrays.asList(1, 2));
+        personList.forEach(System.out::println);
+    }
+
+    @Test
     public void testQueryForNull() {
         Address address = new Address();
         address.setId(null);
