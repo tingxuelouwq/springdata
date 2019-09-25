@@ -113,6 +113,9 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
             " AND p.address.city LIKE  %:#{#address.city}%")
     List<PersonQuery2> queryForHQL2(@Param("address") Address address);
 
+    @Query("SELECT p.lastName, addr.city FROM Person p INNER JOIN Address addr ON p.address.id = addr.id AND p.address.id = :#{#address.id}")
+    List<PersonQuery> queryForHQL3(@Param("address") Address address);
+
     @Query("SELECT p FROM Person p WHERE p.id IN :ids")
     List<Person> queryForIn(List<Integer> ids);
 

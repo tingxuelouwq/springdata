@@ -207,13 +207,12 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testPageByIdGreaterThan() {
-        int pageNo = 3;
+        int pageNo = 1;
         int pageSize = 5;
-        Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "id");
-        Sort.Order order2 = new Sort.Order(Sort.Direction.ASC, "email");
-        Sort sort = Sort.by(order1, order2);
+        Sort.Order order1 = new Sort.Order(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(order1);
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Person> page = personRepository.pageByIdGreaterThan(5, pageable);
+        Page<Person> page = personRepository.pageByIdGreaterThan(0, pageable);
         System.out.println("总记录数: " + page.getTotalElements());
         System.out.println("总页数: " + page.getTotalPages());
         System.out.println("当前第几页: " + page.getNumber());
@@ -364,6 +363,14 @@ public class HelloWorldApplicationTests {
         address.setCity("Bei");
         List<PersonQuery2> list = personRepository.queryForHQL2(address);
         list.forEach(System.out::println);
+    }
+
+    @Test
+    public void testQueryForHQL3() {
+        Address address = new Address();
+        address.setId(2);
+        List<PersonQuery> list = personRepository.queryForHQL3(address);
+        System.out.println(list.size());
     }
 
     @Test
