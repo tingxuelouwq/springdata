@@ -127,4 +127,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT new com.kevin.springdata.dto.PerAddr(p.lastName, p.address.id, p.address.province, p.address.city) FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
     List<PerAddr> queryForEncapsulate(Address address);
+
+    @Query("SELECT new com.kevin.springdata.dto.PerAddr(p.lastName, p.address.id, p.address.province, p.address.city) FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
+    List<PerAddr> queryForEncapsulate2(Address address);
 }

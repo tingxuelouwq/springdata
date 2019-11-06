@@ -400,4 +400,12 @@ public class HelloWorldApplicationTests {
         List<PerAddr> list = personRepository.queryForEncapsulate(address);
         list.forEach(System.out::println);
     }
+
+    @Test
+    public void testQueryForEncapsulate2() {
+        Address address = new Address();
+        address.setId(3);
+        List<PerAddr> list = personRepository.queryForEncapsulate2(address);
+        list.forEach(System.out::println);
+    }
 }
