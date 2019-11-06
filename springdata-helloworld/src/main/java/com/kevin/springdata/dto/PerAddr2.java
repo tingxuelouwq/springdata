@@ -15,8 +15,8 @@ public class PerAddr2 {
     private String name;
     private Address address;
 
-    public PerAddr2(String name, Integer id, String province, String city) {
-        this.name = name;
+    public PerAddr2(String lastName, Integer id, String province, String city) {
+        this.name = lastName;
         this.address = new Address(id, province, city);
     }
 
