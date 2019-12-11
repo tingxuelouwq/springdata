@@ -82,10 +82,10 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     // 默认情况下，SpringData的每个方法上都有事务，但都是一个只读事务，不能完成修改操作，
     // 如果要改变SpringData提供的事务默认方式，可以在方法上注解@Transactinoal声明
     @Modifying
-    @Query("UPDATE Person p SET p.email = :email WHERE id = :id")
+    @Query("UPDATE Person p SET p.email = :email WHERE p.id = :id")
     void updatePersonEmail(Integer id, String email);
 
-    @Query("SELECT p FROM Person p WHERE id > :id")
+    @Query("SELECT p FROM Person p WHERE p.id > :id")
     Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
 
     @Query("SELECT new com.kevin.springdata.dto.PersonAddress(p.lastName, p.address) FROM Person p WHERE p.address = :address")
@@ -94,7 +94,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     @Query("SELECT p.lastName AS lastName, p.address AS address FROM Person p WHERE p.address = :address")
     Page<PersonAddress2> findByAddress2(@Param("address") Address address, Pageable pageable);
 
-    @Query("SELECT p FROM Person p WHERE id IN (:ids)")
+    @Query("SELECT p FROM Person p WHERE p.id IN (:ids)")
     Page<Person> pageByIdIn(@Param("ids") List<Integer> ids, Pageable pageable);
 
     @Query(value = "SELECT COUNT(*) FROM t_person p WHERE IF(:email != null, email = :email, 1 = 1) AND IF(:isGroupScrap, email = '', 1 = 1)", nativeQuery = true)
@@ -130,4 +130,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT new com.kevin.springdata.dto.PerAddr(p.lastName, p.address.id, p.address.province, p.address.city) FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
     List<PerAddr> queryForEncapsulate2(Address address);
+
+    @Query(value = "SELECT * FROM t_person WHERE last_name = :#{#person.lastName} AND CASE addr_id WHEN 1 THEN address_id = 1 ELSE address_id = 3 END;", nativeQuery = true)
+    List<Person> queryForCaseWhen(Person person);
 }

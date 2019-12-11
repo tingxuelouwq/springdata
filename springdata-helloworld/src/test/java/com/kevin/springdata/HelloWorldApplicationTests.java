@@ -408,4 +408,12 @@ public class HelloWorldApplicationTests {
         List<PerAddr> list = personRepository.queryForEncapsulate2(address);
         list.forEach(System.out::println);
     }
+
+    @Test
+    public void testQueryForCaseWhen() {
+        Person person = new Person();
+        person.setLastName("tom");
+        List<Person> list = personRepository.queryForCaseWhen(person);
+        list.forEach(System.out::println);
+    }
 }
