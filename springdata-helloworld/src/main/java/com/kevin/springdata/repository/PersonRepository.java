@@ -131,6 +131,6 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     @Query("SELECT new com.kevin.springdata.dto.PerAddr(p.lastName, p.address.id, p.address.province, p.address.city) FROM Person p WHERE (:#{#address.id} IS NULL OR p.address.id = :#{#address.id})")
     List<PerAddr> queryForEncapsulate2(Address address);
 
-    @Query(value = "SELECT * FROM t_person WHERE last_name = :#{#person.lastName} AND CASE addr_id WHEN 1 THEN address_id = 1 ELSE address_id = 3 END;", nativeQuery = true)
+    @Query(value = "SELECT * FROM t_person WHERE last_name = :#{#person.lastName} AND CASE :#{#person.addressId} WHEN 1 THEN address_id = :#{#person.addressId} ELSE address_id = 3 END;", nativeQuery = true)
     List<Person> queryForCaseWhen(Person person);
 }

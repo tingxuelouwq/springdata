@@ -413,6 +413,7 @@ public class HelloWorldApplicationTests {
     public void testQueryForCaseWhen() {
         Person person = new Person();
         person.setLastName("tom");
+        person.setAddressId(1);
         List<Person> list = personRepository.queryForCaseWhen(person);
         list.forEach(System.out::println);
     }
