@@ -417,4 +417,11 @@ public class HelloWorldApplicationTests {
         List<Person> list = personRepository.queryForCaseWhen(person);
         list.forEach(System.out::println);
     }
+
+    @Test
+    public void testDynamicInsert() {
+        Person person = personRepository.findById(17).get();
+        person.setLastName("Tom");
+        personRepository.save(person);
+    }
 }
