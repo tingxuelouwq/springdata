@@ -2,6 +2,7 @@ package com.kevin.springdata;
 
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
+import com.kevin.springdata.dto.PersonAddress3;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
@@ -127,7 +128,7 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testUpdatePersonEmail() {
-        personService.updatePersonEmail(1, "tttx@126.com");
+        personService.updatePersonEmail(1, "Tom", "tttx@126.com");
     }
 
     @Test
@@ -319,5 +320,15 @@ public class HelloWorldApplicationTests {
             System.out.println(personAddress2.getLastName());
             System.out.println(personAddress2.getAddress());
         });
+    }
+
+    @Test
+    public void testFindByAddress3ByNative() {
+        Address address = new Address();
+        address.setId(3);
+        List<PersonAddress3> list = personRepository.findByAddress3ByNative(address);
+        for (PersonAddress3 personAddress3 : list) {
+            System.out.println(personAddress3.getLastName() + ", " + personAddress3.getProvince() + ", " + personAddress3.getCity());
+        }
     }
 }

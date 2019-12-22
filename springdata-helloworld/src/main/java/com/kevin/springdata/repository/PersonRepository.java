@@ -3,6 +3,7 @@ package com.kevin.springdata.repository;
 import com.kevin.springdata.dao.PersonDao;
 import com.kevin.springdata.dto.PersonAddress;
 import com.kevin.springdata.dto.PersonAddress2;
+import com.kevin.springdata.dto.PersonAddress3;
 import com.kevin.springdata.entity.Address;
 import com.kevin.springdata.entity.Person;
 import org.springframework.data.domain.Page;
@@ -11,9 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
@@ -86,8 +84,8 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     // 默认情况下，SpringData的每个方法上都有事务，但都是一个只读事务，不能完成修改操作，
     // 如果要改变SpringData提供的事务默认方式，可以在方法上注解@Transactinoal声明
     @Modifying
-    @Query("UPDATE Person p SET p.email = :email WHERE id = :id")
-    void updatePersonEmail(Integer id, String email);
+    @Query("UPDATE Person p SET p.email = :email, lastName = :lastName WHERE id = :id")
+    void updatePersonEmail(Integer id, String lastName, String email);
 
     @Query("SELECT p FROM Person p WHERE id > :id")
     Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
@@ -97,4 +95,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query("SELECT p.lastName AS lastName, p.address AS address FROM Person p WHERE p.address = :address")
     Page<PersonAddress2> findByAddress2(@Param("address") Address address, Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, ta.province, ta.city FROM t_person p INNER JOIN t_address ta on p.address_id = ta.id WHERE p.address_id = :#{#address.id}")
+    List<PersonAddress3> findByAddress3ByNative(@Param("address") Address address);
 }

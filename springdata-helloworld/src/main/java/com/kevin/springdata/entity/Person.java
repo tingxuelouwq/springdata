@@ -1,10 +1,7 @@
 package com.kevin.springdata.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 类名: Person<br/>

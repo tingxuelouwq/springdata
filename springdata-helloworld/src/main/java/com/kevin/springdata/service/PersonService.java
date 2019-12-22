@@ -23,8 +23,8 @@ public class PersonService {
     private PersonRepository personRepository;
 
     @Transactional
-    public void updatePersonEmail(Integer id, String email) {
-        personRepository.updatePersonEmail(id, email);
+    public void updatePersonEmail(Integer id, String lastName, String email) {
+        personRepository.updatePersonEmail(id, lastName, email);
     }
 
     @Transactional
