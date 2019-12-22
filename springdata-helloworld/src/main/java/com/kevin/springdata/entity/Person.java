@@ -1,5 +1,8 @@
 package com.kevin.springdata.entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,6 +16,8 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "T_PERSON")
+@DynamicInsert
+@DynamicUpdate
 public class Person {
 
     private Integer id;

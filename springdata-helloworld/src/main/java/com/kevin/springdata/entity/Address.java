@@ -18,6 +18,15 @@ public class Address {
     private String province;
     private String city;
 
+    public Address() {
+    }
+
+    public Address(Integer id, String province, String city) {
+        this.id = id;
+        this.province = province;
+        this.city = city;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
