@@ -126,7 +126,7 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testUpdatePersonEmail() {
-        personService.updatePersonEmail(1, "tttx@126.com");
+        personService.updatePersonEmail(1, "kevin", "tttx@126.com");
     }
 
     @Test
@@ -423,5 +423,15 @@ public class HelloWorldApplicationTests {
         Person person = personRepository.findById(17).get();
         person.setLastName("Tom");
         personRepository.save(person);
+    }
+
+    @Test
+    public void testFindByAddress3ByNative() {
+        Address address = new Address();
+        address.setId(3);
+        List<PersonAddress3> list = personRepository.findByAddress3ByNative(address);
+        for (PersonAddress3 personAddress3 : list) {
+            System.out.println(personAddress3.getLastName() + ", " + personAddress3.getProvince() + ", " + personAddress3.getCity());
+        }
     }
 }

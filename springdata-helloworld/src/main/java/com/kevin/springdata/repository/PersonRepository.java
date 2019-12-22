@@ -82,8 +82,8 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
     // 默认情况下，SpringData的每个方法上都有事务，但都是一个只读事务，不能完成修改操作，
     // 如果要改变SpringData提供的事务默认方式，可以在方法上注解@Transactinoal声明
     @Modifying
-    @Query("UPDATE Person p SET p.email = :email WHERE p.id = :id")
-    void updatePersonEmail(Integer id, String email);
+    @Query("UPDATE Person p SET p.email = :email, p.lastName = :lastName WHERE p.id = :id")
+    void updatePersonEmail(Integer id, String lastName, String email);
 
     @Query("SELECT p FROM Person p WHERE p.id > :id")
     Page<Person> pageByIdGreaterThan(@Param("id") Integer id, Pageable pageable);
@@ -133,4 +133,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query(value = "SELECT * FROM t_person WHERE last_name = :#{#person.lastName} AND CASE :#{#person.addressId} WHEN 1 THEN address_id = :#{#person.addressId} ELSE address_id = 3 END;", nativeQuery = true)
     List<Person> queryForCaseWhen(Person person);
+
+    @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, ta.province, ta.city FROM t_person p INNER JOIN t_address ta on p.address_id = ta.id WHERE p.address_id = :#{#address.id}")
+    List<PersonAddress3> findByAddress3ByNative(@Param("address") Address address);
 }
