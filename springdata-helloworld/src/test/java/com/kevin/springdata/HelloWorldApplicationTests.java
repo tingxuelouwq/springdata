@@ -434,4 +434,10 @@ public class HelloWorldApplicationTests {
             System.out.println(personAddress3.getLastName() + ", " + personAddress3.getProvince() + ", " + personAddress3.getCity());
         }
     }
+
+    @Test
+    public void testQueryForDateTime() {
+        PersonQuery3 personQuery3 = personRepository.queryForDateTime(1);
+        System.out.println(personQuery3);
+    }
 }

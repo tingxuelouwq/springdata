@@ -136,4 +136,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>,
 
     @Query(nativeQuery = true, value = "SELECT p.last_name AS lastName, ta.province, ta.city FROM t_person p INNER JOIN t_address ta on p.address_id = ta.id WHERE p.address_id = :#{#address.id}")
     List<PersonAddress3> findByAddress3ByNative(@Param("address") Address address);
+
+    @Query("SELECT new com.kevin.springdata.dto.PersonQuery3(p.lastName, p.birth) FROM  Person p WHERE p.id = :id")
+    PersonQuery3 queryForDateTime(Integer id);
 }
