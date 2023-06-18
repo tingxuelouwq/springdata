@@ -6,6 +6,7 @@ import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.repository.PersonRepository;
 import com.kevin.springdata.service.EmPersonService;
 import com.kevin.springdata.service.PersonService;
+import com.kevin.springdata.util.JsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -458,5 +459,25 @@ public class HelloWorldApplicationTests {
     @Test
     public void testFindByIdsByNativeSQL() {
         System.out.println(emPersonService.findByIds(Arrays.asList(1,4)));
+    }
+
+    @Test
+    public void testPageByNativeSQL() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.page(2,2)));
+    }
+
+    @Test
+    public void testTListByNaitiveSQL() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tList()));
+    }
+
+    @Test
+    public void testTSingleResultByNaitiveSQL() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tSingleResult()));
+    }
+
+    @Test
+    public void testTPageByNativeSQL() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tpage(1, 2)));
     }
 }
