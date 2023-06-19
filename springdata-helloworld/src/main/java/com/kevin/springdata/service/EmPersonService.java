@@ -4,10 +4,7 @@ import com.kevin.springdata.dto.PersonDTO;
 import com.kevin.springdata.dto.PersonTransDTO;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.transformer.ToPersonResultTransformer;
-import com.kevin.springdata.transformer.ToStringResultTransformer;
 import com.kevin.springdata.util.NativeQueryHelper;
-import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
@@ -119,4 +116,9 @@ public class EmPersonService {
                 .setResultTransformer(new ToPersonResultTransformer<>(PersonTransDTO.class));
         return query.getResultList();
     }
+
+//    public List<PersonTransDTO> tScalarReflectTransList(List<Integer> ids, Class<?> clazz) {
+//        Field[] fields = clazz.getDeclaredFields();
+//        fields.getClass().getTypeName();
+//    }
 }

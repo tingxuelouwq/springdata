@@ -7,6 +7,7 @@ import com.kevin.springdata.repository.PersonRepository;
 import com.kevin.springdata.service.EmPersonService;
 import com.kevin.springdata.service.PersonService;
 import com.kevin.springdata.util.JsonUtil;
+import org.apache.commons.lang3.ClassUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.criteria.*;
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
+import java.lang.reflect.Field;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
@@ -490,5 +491,37 @@ public class HelloWorldApplicationTests {
     @Test
     public void testTEntityTransList() {
         System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransList(Arrays.asList(1, 4))));
+    }
+
+    @Test
+    public void test13() {
+        Class<?> clazz = PersonTransDTO.class;
+        Field[] fields = clazz.getDeclaredFields();
+        Class<?> type;
+        Map<String, Class<?>> properties = new HashMap<>();
+        for (Field field : fields) {
+            type = field.getType();
+            if (ClassUtils.isPrimitiveOrWrapper(type)) {
+                properties.put(field.getName(), type);
+            } else if (type.isAssignableFrom(String.class)) {
+                properties.put(field.getName(), type);
+            } else if (type.isAssignableFrom(Date.class)) {
+                properties.put(field.getName(), type);
+            }
+        }
+        System.out.println(JsonUtil.bean2Json(properties));
+
+//        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
+//        Query query = entityManager.createNativeQuery(sql);
+//        query.setParameter("ids", ids);
+//
+//        query.unwrap(NativeQueryImpl.class)
+//                .addScalar("id", StandardBasicTypes.LONG)
+//                .addScalar("lastName", StandardBasicTypes.STRING)
+//                .addScalar("email", StandardBasicTypes.STRING)
+//                .addScalar("birth", StandardBasicTypes.DATE)
+//                .addScalar("auditStatus", StandardBasicTypes.STRING)
+//                .addScalar("processStatus", StandardBasicTypes.INTEGER);
+//        return query.getResultList();
     }
 }
