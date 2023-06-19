@@ -27,6 +27,8 @@ public class Person {
     private Date birth;
     private Address address;
     private Integer addressId;
+    private String auditStauts;
+    private Integer processStatus;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +83,22 @@ public class Person {
         this.addressId = addressId;
     }
 
+    public String getAuditStauts() {
+        return auditStauts;
+    }
+
+    public void setAuditStauts(String auditStauts) {
+        this.auditStauts = auditStauts;
+    }
+
+    public Integer getProcessStatus() {
+        return processStatus;
+    }
+
+    public void setProcessStatus(Integer processStatus) {
+        this.processStatus = processStatus;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -90,6 +108,8 @@ public class Person {
                 ", birth=" + birth +
                 ", address=" + address +
                 ", addressId=" + addressId +
+                ", auditStauts='" + auditStauts + '\'' +
+                ", processStatus=" + processStatus +
                 '}';
     }
 }

@@ -95,7 +95,7 @@ public class EmPersonService {
 
     @SuppressWarnings("unchecked")
     public List<PersonTransDTO> tScalarTransList(List<Integer> ids) {
-        String sql = "select id, last_name as lastName, email, birth from t_person where id in (:ids)";
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("ids", ids);
 
@@ -103,13 +103,15 @@ public class EmPersonService {
                 .addScalar("id", StandardBasicTypes.LONG)
                 .addScalar("lastName", StandardBasicTypes.STRING)
                 .addScalar("email", StandardBasicTypes.STRING)
-                .addScalar("birth", StandardBasicTypes.DATE);
+                .addScalar("birth", StandardBasicTypes.DATE)
+                .addScalar("auditStatus", StandardBasicTypes.STRING)
+                .addScalar("processStatus", StandardBasicTypes.INTEGER);
         return query.getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<PersonTransDTO> tEntityTransList(List<Integer> ids) {
-        String sql = "select id, last_name as lastName, email, birth from t_person where id in (:ids)";
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("ids", ids);
 

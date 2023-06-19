@@ -32,10 +32,11 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
      */
     @Override
     public Object transformTuple(Object[] tuple, String[] aliases) {
-        T t = null;
+        T t;
         try {
             t = target.getDeclaredConstructor().newInstance();
             Field[] fields = target.getDeclaredFields();
+            String typeName;
             for (Field field : fields) {
                 for (int i = 0; i < aliases.length; i++) {
                     if (field.getName().equals(aliases[i])) {
@@ -43,8 +44,14 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
                         if (tuple[i] == null) {
                             continue;
                         }
-                        if (tuple[i].getClass().getTypeName().equals("java.math.BigInteger")) {
+
+                        typeName = tuple[i].getClass().getTypeName();
+                        if (typeName.equals(BigInteger.class.getTypeName())) {
                             field.set(t, ((BigInteger) tuple[i]).longValue());
+                        } else if (typeName.equals(Character.class.getTypeName())) {
+                            field.set(t, String.valueOf(tuple[i]));
+                        } else if (typeName.equals(Byte.class.getTypeName())) { // tinyint默认会被映射为Boolean，需将jdbcUrl中的tinyInt1isBit=false，这样会将其映射为Byte
+                            field.set(t, ((Byte) tuple[i]).intValue());
                         } else {
                             field.set(t, tuple[i]);
                         }
@@ -52,8 +59,8 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
                 }
             }
         } catch (Exception e) {
-            logger.error("实体转换异常", e);
-            throw new FatalBeanException("实体转换异常, className = " + target.getName(), e);
+            logger.error("实体转换异常, className=" + target.getName() + ", errMsg=" + e.getMessage(), e);
+            throw new FatalBeanException("实体转换异常", e);
         }
         return t;
     }

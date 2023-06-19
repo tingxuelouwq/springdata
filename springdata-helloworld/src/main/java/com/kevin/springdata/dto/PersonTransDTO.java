@@ -12,6 +12,8 @@ public class PersonTransDTO {
     private String lastName;
     private String email;
     private Date birth;
+    private String auditStatus;
+    private Integer processStatus;
 
     public Long getId() {
         return id;
@@ -43,5 +45,21 @@ public class PersonTransDTO {
 
     public void setBirth(Date birth) {
         this.birth = birth;
+    }
+
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
+    public Integer getProcessStatus() {
+        return processStatus;
+    }
+
+    public void setProcessStatus(Integer processStatus) {
+        this.processStatus = processStatus;
     }
 }
