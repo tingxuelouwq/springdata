@@ -1,6 +1,9 @@
 package com.kevin.springdata.transformer;
 
 import org.hibernate.transform.BasicTransformerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.FatalBeanException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,14 +16,15 @@ import java.util.Arrays;
  */
 public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
 
-    private Class<T> target;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final Class<T> target;
 
     public ToPersonResultTransformer(Class<T> target) {
         this.target = target;
     }
 
     /**
-     * 每行一个 String，字段值全部接在一起
      *
      * @param tuple   字段值
      * @param aliases 字段名
@@ -48,7 +52,8 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("实体转换异常", e);
+            throw new FatalBeanException("实体转换异常, className = " + target.getName(), e);
         }
         return t;
     }
