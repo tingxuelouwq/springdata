@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 类名: Person<br/>
@@ -20,20 +21,20 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class Person {
 
-    private Integer id;
+    private Long id;
     private String lastName;
     private String email;
-    private LocalDateTime birth;
+    private Date birth;
     private Address address;
     private Integer addressId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,11 +54,11 @@ public class Person {
         this.email = email;
     }
 
-    public LocalDateTime getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(LocalDateTime birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 

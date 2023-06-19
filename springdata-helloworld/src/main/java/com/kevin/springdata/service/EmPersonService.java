@@ -72,17 +72,17 @@ public class EmPersonService {
     }
 
     public List<PersonDTO> tList() {
-        String sql = "select last_name as lastName, email from t_person";
+        String sql = "select last_name as lastName, email, birth from t_person";
         return nativeQueryHelper.nativeQuery(sql, PersonDTO.class);
     }
 
     public PersonDTO tSingleResult() {
-        String sql = "select last_name as lastName, email from t_person where id = 1";
+        String sql = "select last_name as lastName, email, birth from t_person where id = 1";
         return nativeQueryHelper.nativeQuerySingleResult(sql, PersonDTO.class);
     }
 
     public Page<PersonDTO> tpage(int pageIndex, int pageSize) {
-        String sql = "select last_name as lastName, email  from t_person";
+        String sql = "select last_name as lastName, email, birth  from t_person";
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         return nativeQueryHelper.nativeQueryPage(sql, pageable, PersonDTO.class);
     }

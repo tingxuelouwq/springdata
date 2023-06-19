@@ -14,9 +14,9 @@ import java.util.Date;
 public class PersonQuery3 {
 
     private String lastName;
-    private LocalDateTime birth;
+    private Date birth;
 
-    public PersonQuery3(String lastName, LocalDateTime birth) {
+    public PersonQuery3(String lastName, Date birth) {
         this.lastName = lastName;
         this.birth = birth;
     }
@@ -29,11 +29,11 @@ public class PersonQuery3 {
         this.lastName = lastName;
     }
 
-    public LocalDateTime getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(LocalDateTime birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 

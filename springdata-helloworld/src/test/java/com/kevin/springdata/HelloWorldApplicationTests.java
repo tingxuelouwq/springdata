@@ -140,7 +140,7 @@ public class HelloWorldApplicationTests {
         for (int i = 'a'; i <= 'z'; i++) {
             Person person = new Person();
             person.setAddressId(i + 1);
-            person.setBirth(LocalDateTime.now());
+            person.setBirth(new Date());
             person.setEmail((char) i + "" + (char) i + "@126.com");
             person.setLastName((char) i + "" + (char) i);
             persons.add(person);
@@ -170,10 +170,10 @@ public class HelloWorldApplicationTests {
     @Test
     public void testSaveAndFlush() {
         Person person = new Person();
-        person.setBirth(LocalDateTime.now());
+        person.setBirth(new Date());
         person.setEmail("over@126.com");
         person.setLastName("over2");
-        person.setId(27);
+        person.setId(27L);
         Person person1 = personRepository.saveAndFlush(person);
         System.out.println(person == person1);
     }
@@ -458,7 +458,8 @@ public class HelloWorldApplicationTests {
 
     @Test
     public void testFindByIdsByNativeSQL() {
-        System.out.println(emPersonService.findByIds(Arrays.asList(1,4)));
+        List<Person> persons = emPersonService.findByIds(Arrays.asList(1,4));
+        System.out.println(JsonUtil.bean2Json(persons));
     }
 
     @Test
