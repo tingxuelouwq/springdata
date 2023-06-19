@@ -1,10 +1,16 @@
 package com.kevin.springdata.service;
 
 import com.kevin.springdata.dto.PersonDTO;
+import com.kevin.springdata.dto.PersonTransDTO;
 import com.kevin.springdata.entity.Person;
+import com.kevin.springdata.transformer.ToPersonResultTransformer;
+import com.kevin.springdata.transformer.ToStringResultTransformer;
 import com.kevin.springdata.util.NativeQueryHelper;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -85,5 +91,30 @@ public class EmPersonService {
         String sql = "select last_name as lastName, email, birth  from t_person";
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         return nativeQueryHelper.nativeQueryPage(sql, pageable, PersonDTO.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PersonTransDTO> tScalarTransList(List<Integer> ids) {
+        String sql = "select id, last_name as lastName, email, birth from t_person where id in (:ids)";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("ids", ids);
+
+        query.unwrap(NativeQueryImpl.class)
+                .addScalar("id", StandardBasicTypes.LONG)
+                .addScalar("lastName", StandardBasicTypes.STRING)
+                .addScalar("email", StandardBasicTypes.STRING)
+                .addScalar("birth", StandardBasicTypes.DATE);
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PersonTransDTO> tEntityTransList(List<Integer> ids) {
+        String sql = "select id, last_name as lastName, email, birth from t_person where id in (:ids)";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("ids", ids);
+
+        query.unwrap(NativeQueryImpl.class)
+                .setResultTransformer(new ToPersonResultTransformer<>(PersonTransDTO.class));
+        return query.getResultList();
     }
 }

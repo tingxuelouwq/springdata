@@ -481,4 +481,14 @@ public class HelloWorldApplicationTests {
     public void testTPageByNativeSQL() {
         System.out.println(JsonUtil.bean2Json(emPersonService.tpage(1, 2)));
     }
+
+    @Test
+    public void testTScalarTransList() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tScalarTransList(Arrays.asList(1, 4))));
+    }
+
+    @Test
+    public void testTEntityTransList() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransList(Arrays.asList(1, 4))));
+    }
 }
