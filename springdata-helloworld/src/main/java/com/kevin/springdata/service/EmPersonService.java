@@ -113,7 +113,7 @@ public class EmPersonService {
         query.setParameter("ids", ids);
 
         query.unwrap(NativeQueryImpl.class)
-                .setResultTransformer(new ToPersonResultTransformer<>(PersonTransDTO.class));
+                .setResultTransformer(new ToPersonResultTransformer(PersonTransDTO.class));
         return query.getResultList();
     }
 

@@ -6,21 +6,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.FatalBeanException;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * kevin<br/>
  * 2023/6/18 17:42<br/>
  */
-public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
+public class ToPersonResultTransformer extends BasicTransformerAdapter {
 
+    private static final long serialVersionUID = -5645251125599703559L;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Class<T> target;
+    private final Class<?> target;
 
-    public ToPersonResultTransformer(Class<T> target) {
+    public ToPersonResultTransformer(Class<?> target) {
         this.target = target;
     }
 
@@ -32,9 +31,9 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
      */
     @Override
     public Object transformTuple(Object[] tuple, String[] aliases) {
-        T t;
+        Object obj;
         try {
-            t = target.getDeclaredConstructor().newInstance();
+            obj = target.getDeclaredConstructor().newInstance();
             Field[] fields = target.getDeclaredFields();
             String typeName;
             for (Field field : fields) {
@@ -47,13 +46,13 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
 
                         typeName = tuple[i].getClass().getTypeName();
                         if (typeName.equals(BigInteger.class.getTypeName())) {
-                            field.set(t, ((BigInteger) tuple[i]).longValue());
+                            field.set(obj, ((BigInteger) tuple[i]).longValue());
                         } else if (typeName.equals(Character.class.getTypeName())) {
-                            field.set(t, String.valueOf(tuple[i]));
+                            field.set(obj, String.valueOf(tuple[i]));
                         } else if (typeName.equals(Byte.class.getTypeName())) { // tinyint默认会被映射为Boolean，需将jdbcUrl中的tinyInt1isBit=false，这样会将其映射为Byte
-                            field.set(t, ((Byte) tuple[i]).intValue());
+                            field.set(obj, ((Byte) tuple[i]).intValue());
                         } else {
-                            field.set(t, tuple[i]);
+                            field.set(obj, tuple[i]);
                         }
                     }
                 }
@@ -62,7 +61,7 @@ public class ToPersonResultTransformer<T> extends BasicTransformerAdapter {
             logger.error("实体转换异常, className=" + target.getName() + ", errMsg=" + e.getMessage(), e);
             throw new FatalBeanException("实体转换异常", e);
         }
-        return t;
+        return obj;
     }
 }
 
