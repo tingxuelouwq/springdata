@@ -4,6 +4,7 @@ import com.kevin.springdata.dto.PersonDTO;
 import com.kevin.springdata.dto.PersonTransDTO;
 import com.kevin.springdata.entity.Person;
 import com.kevin.springdata.transformer.ToPersonResultTransformer;
+import com.kevin.springdata.util.JsonUtil;
 import com.kevin.springdata.util.NativeQueryHelper;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -123,6 +124,16 @@ public class EmPersonService {
         String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
+        return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
+    }
+
+    public List<PersonTransDTO> tEntityTransList3(List<Integer> ids) {
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
+        QueryObject queryObject = new QueryObject();
+        queryObject.setIds(ids);
+        queryObject.setParam1("test");  // 无用参数，无需序列化到map里
+        String json = JsonUtil.bean2Json(queryObject);
+        Map<String, Object> param = JsonUtil.json2Map(json);
         return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
     }
 

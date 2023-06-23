@@ -499,6 +499,11 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testTEntityTransList3() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransList3(Arrays.asList(1, 4))));
+    }
+
+    @Test
     public void testPage2() {
         System.out.println(JsonUtil.bean2Json(emPersonService.tpage2(1, 2)));
     }
