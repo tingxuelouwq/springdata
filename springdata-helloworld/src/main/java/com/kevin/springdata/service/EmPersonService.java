@@ -123,6 +123,6 @@ public class EmPersonService {
         String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
-        return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonDTO.class));
+        return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
     }
 }
