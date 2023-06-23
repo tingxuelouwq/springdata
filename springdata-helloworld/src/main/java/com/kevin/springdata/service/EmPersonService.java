@@ -125,4 +125,11 @@ public class EmPersonService {
         param.put("ids", ids);
         return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
     }
+
+    public Page<PersonDTO> tpage2(int pageIndex, int pageSize) {
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person";
+        String countSql = "select count(*) from t_person";
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        return nativeQueryHelper.nativeQueryPage(sql, countSql, null, pageable, new ToPersonResultTransformer(PersonTransDTO.class));
+    }
 }

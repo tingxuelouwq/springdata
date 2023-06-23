@@ -499,6 +499,11 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testPage2() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tpage2(1, 2)));
+    }
+
+    @Test
     public void test13() {
         Class<?> clazz = PersonTransDTO.class;
         Field[] fields = clazz.getDeclaredFields();
