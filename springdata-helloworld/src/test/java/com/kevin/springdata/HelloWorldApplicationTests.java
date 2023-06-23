@@ -494,6 +494,11 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testTEntityTransList2() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransList2(Arrays.asList(1, 4))));
+    }
+
+    @Test
     public void test13() {
         Class<?> clazz = PersonTransDTO.class;
         Field[] fields = clazz.getDeclaredFields();
@@ -510,18 +515,5 @@ public class HelloWorldApplicationTests {
             }
         }
         System.out.println(JsonUtil.bean2Json(properties));
-
-//        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
-//        Query query = entityManager.createNativeQuery(sql);
-//        query.setParameter("ids", ids);
-//
-//        query.unwrap(NativeQueryImpl.class)
-//                .addScalar("id", StandardBasicTypes.LONG)
-//                .addScalar("lastName", StandardBasicTypes.STRING)
-//                .addScalar("email", StandardBasicTypes.STRING)
-//                .addScalar("birth", StandardBasicTypes.DATE)
-//                .addScalar("auditStatus", StandardBasicTypes.STRING)
-//                .addScalar("processStatus", StandardBasicTypes.INTEGER);
-//        return query.getResultList();
     }
 }

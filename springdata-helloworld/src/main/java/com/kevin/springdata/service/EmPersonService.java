@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * kevin<br/>
@@ -117,8 +119,10 @@ public class EmPersonService {
         return query.getResultList();
     }
 
-//    public List<PersonTransDTO> tScalarReflectTransList(List<Integer> ids, Class<?> clazz) {
-//        Field[] fields = clazz.getDeclaredFields();
-//        fields.getClass().getTypeName();
-//    }
+    public List<PersonTransDTO> tEntityTransList2(List<Integer> ids) {
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonDTO.class));
+    }
 }
