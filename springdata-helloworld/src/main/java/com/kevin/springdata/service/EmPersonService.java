@@ -137,10 +137,26 @@ public class EmPersonService {
         return nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
     }
 
+    public List<PersonTransDTO> tEntityTransList4(List<Integer> ids) {
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        List<PersonTransDTO> persons = nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
+        persons.forEach(person -> {
+            person.setAuditStatusInt(Integer.valueOf(person.getAuditStatus()));
+        });
+        return persons;
+    }
+
     public Page<PersonDTO> tpage2(int pageIndex, int pageSize) {
         String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person";
         String countSql = "select count(*) from t_person";
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         return nativeQueryHelper.nativeQueryPage(sql, countSql, null, pageable, new ToPersonResultTransformer(PersonTransDTO.class));
+    }
+
+    public Long count() {
+        String sql = "select count(*) from t_person";
+        return nativeQueryHelper.nativeQueryCount(sql);
     }
 }

@@ -116,6 +116,54 @@ public class NativeQueryHelper {
     }
 
     /**
+     * 带查询参数的原生SQL动态查询
+     *
+     * @param sql         原生SQL
+     * @param param       查询参数
+     * @param transformer 结果集转换器
+     * @param <T>         结果集实体类
+     * @return 单个结果实体
+     */
+    public <T> T nativeQuerySingleResult(String sql, Map<String, Object> param, ResultTransformer transformer) {
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+
+        if (!CollectionUtils.isEmpty(param)) {
+            param.forEach(nativeQuery::setParameter);
+        }
+
+        nativeQuery.unwrap(NativeQueryImpl.class)
+                .setResultTransformer(transformer);
+        return (T) nativeQuery.getSingleResult();
+    }
+
+    /**
+     * 不带查询参数的原生SQL查询计数
+     *
+     * @param sql         原生SQL
+     * @return 计数
+     */
+    public Long nativeQueryCount(String sql) {
+        return nativeQueryCount(sql, null);
+    }
+
+    /**
+     * 带查询参数的原生SQL查询计数
+     *
+     * @param sql         原生SQL
+     * @param param       查询参数
+     * @return 计数
+     */
+    public Long nativeQueryCount(String sql, Map<String, Object> param) {
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+
+        if (!CollectionUtils.isEmpty(param)) {
+            param.forEach(nativeQuery::setParameter);
+        }
+
+        return ((BigInteger) nativeQuery.getSingleResult()).longValue();
+    }
+
+    /**
      * 不带查询参数的原生SQL动态查询，不带计数SQL(建议自行定义计数SQL，默认的计数SQL使用了子查询，性能上有折扣)
      *
      * @param sql         原生SQL

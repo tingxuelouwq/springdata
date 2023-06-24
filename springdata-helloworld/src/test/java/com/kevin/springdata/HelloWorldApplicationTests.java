@@ -504,8 +504,18 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testTEntityTransList4() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransList4(Arrays.asList(1, 4))));
+    }
+
+    @Test
     public void testPage2() {
         System.out.println(JsonUtil.bean2Json(emPersonService.tpage2(1, 2)));
+    }
+
+    @Test
+    public void testCount() {
+        System.out.println(emPersonService.count());
     }
 
     @Test

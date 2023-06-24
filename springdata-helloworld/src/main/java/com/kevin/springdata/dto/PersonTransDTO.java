@@ -15,6 +15,8 @@ public class PersonTransDTO {
     private String auditStatus;
     private Integer processStatus;
 
+    private Integer auditStatusInt;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class PersonTransDTO {
 
     public void setProcessStatus(Integer processStatus) {
         this.processStatus = processStatus;
+    }
+
+    public Integer getAuditStatusInt() {
+        return auditStatusInt;
+    }
+
+    public void setAuditStatusInt(Integer auditStatusInt) {
+        this.auditStatusInt = auditStatusInt;
     }
 }
