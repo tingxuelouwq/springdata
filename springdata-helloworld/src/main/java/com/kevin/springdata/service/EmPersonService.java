@@ -142,9 +142,7 @@ public class EmPersonService {
         Map<String, Object> param = new HashMap<>();
         param.put("ids", ids);
         List<PersonTransDTO> persons = nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
-        persons.forEach(person -> {
-            person.setAuditStatusInt(Integer.valueOf(person.getAuditStatus()));
-        });
+        persons.forEach(person -> person.setAuditStatusInt(Integer.valueOf(person.getAuditStatus())));
         return persons;
     }
 
@@ -158,5 +156,14 @@ public class EmPersonService {
     public Long count() {
         String sql = "select count(*) from t_person";
         return nativeQueryHelper.nativeQueryCount(sql);
+    }
+
+    public List<PersonTransDTO> tEntityTransLike(String email) {
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where email like concat('%',:email,'%')";
+        Map<String, Object> param = new HashMap<>();
+        param.put("email", email);
+        List<PersonTransDTO> persons = nativeQueryHelper.nativeQuery(sql, param, new ToPersonResultTransformer(PersonTransDTO.class));
+        persons.forEach(person -> person.setAuditStatusInt(Integer.valueOf(person.getAuditStatus())));
+        return persons;
     }
 }

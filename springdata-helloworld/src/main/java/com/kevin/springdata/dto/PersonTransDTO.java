@@ -1,7 +1,5 @@
 package com.kevin.springdata.dto;
 
-import java.util.Date;
-
 /**
  * kevin<br/>
  * 2023/6/18 21:23<br/>
@@ -11,7 +9,7 @@ public class PersonTransDTO {
     private Long id;
     private String lastName;
     private String email;
-    private Date birth;
+    private Long birth;
     private String auditStatus;
     private Integer processStatus;
 
@@ -41,11 +39,11 @@ public class PersonTransDTO {
         this.email = email;
     }
 
-    public Date getBirth() {
+    public Long getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(Long birth) {
         this.birth = birth;
     }
 

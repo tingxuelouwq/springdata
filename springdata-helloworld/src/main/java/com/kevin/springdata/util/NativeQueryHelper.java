@@ -164,7 +164,7 @@ public class NativeQueryHelper {
     }
 
     /**
-     * 不带查询参数的原生SQL动态查询，不带计数SQL(建议自行定义计数SQL，默认的计数SQL使用了子查询，性能上有折扣)
+     * 不带查询参数的原生SQL动态查询
      *
      * @param sql         原生SQL
      * @param pageable    分页参数
@@ -178,7 +178,7 @@ public class NativeQueryHelper {
     }
 
     /**
-     * 带查询参数的原生SQL动态查询，不带计数SQL(建议自行定义计数SQL，默认的计数SQL使用了子查询，性能上有折扣)
+     * 带查询参数的原生SQL动态查询
      *
      * @param sql         原生SQL
      * @param param       查询参数
@@ -193,7 +193,22 @@ public class NativeQueryHelper {
     }
 
     /**
-     * 不带查询参数的原生SQL动态查询
+     * 带查询参数的原生SQL动态查询
+     *
+     * @param sql         原生SQL
+     * @param param       查询参数
+     * @param pageable    分页参数
+     * @param transformer 结果集转换器
+     * @param <T>         结果集实体类
+     * @return 结果集分页列表
+     */
+    public <T> Page<T> nativeQueryPage(String sql, Map<String, Object> param, Pageable pageable, ResultTransformer transformer) {
+        String countSql = "SELECT COUNT(*)  FROM ( " + sql + " ) getcount";
+        return nativeQueryPage(sql, countSql, param, pageable, transformer);
+    }
+
+    /**
+     * 不带查询参数的原生SQL动态查询，带计数SQL(注意，计数SQL不能存在GROUP BY子句，否则在计数为0时，COUNT(*)返回NULL而非0，一般使用默认计数SQL即可)
      *
      * @param sql         原生SQL
      * @param countSql    计数SQL
@@ -207,7 +222,7 @@ public class NativeQueryHelper {
     }
 
     /**
-     * 带查询参数的原生SQL动态查询
+     * 带查询参数的原生SQL动态查询，带计数SQL(注意，计数SQL不能存在GROUP BY子句，否则在计数为0时，COUNT(*)返回NULL而非0，一般使用默认计数SQL即可)
      *
      * @param sql         原生SQL
      * @param countSql    计数SQL
@@ -240,7 +255,7 @@ public class NativeQueryHelper {
     }
 
     /**
-     * 带查询参数的原生SQL动态查询
+     * 带查询参数的原生SQL动态查询，带计数SQL(注意，计数SQL不能存在GROUP BY子句，否则在计数为0时，COUNT(*)返回NULL而非0，一般使用默认计数SQL即可)
      *
      * @param sql         原生SQL
      * @param countSql    计数SQL

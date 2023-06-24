@@ -7,6 +7,8 @@ import org.springframework.beans.FatalBeanException;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * kevin<br/>
@@ -51,6 +53,8 @@ public class ToPersonResultTransformer extends BasicTransformerAdapter {
                             field.set(obj, String.valueOf(tuple[i]));
                         } else if (typeName.equals(Byte.class.getTypeName())) { // tinyint默认会被映射为Boolean，需将jdbcUrl中的tinyInt1isBit=false，这样会将其映射为Byte
                             field.set(obj, ((Byte) tuple[i]).intValue());
+                        } else if (typeName.equals(Timestamp.class.getTypeName())) {
+                            field.set(obj, ((Date) tuple[i]).getTime());
                         } else {
                             field.set(obj, tuple[i]);
                         }

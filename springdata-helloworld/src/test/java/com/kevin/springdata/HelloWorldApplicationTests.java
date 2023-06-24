@@ -519,6 +519,11 @@ public class HelloWorldApplicationTests {
     }
 
     @Test
+    public void testTEntityLike() {
+        System.out.println(JsonUtil.bean2Json(emPersonService.tEntityTransLike("z@126")));
+    }
+
+    @Test
     public void test13() {
         Class<?> clazz = PersonTransDTO.class;
         Field[] fields = clazz.getDeclaredFields();
