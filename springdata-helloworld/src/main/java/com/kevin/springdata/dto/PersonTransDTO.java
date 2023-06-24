@@ -1,5 +1,7 @@
 package com.kevin.springdata.dto;
 
+import java.math.BigDecimal;
+
 /**
  * kevin<br/>
  * 2023/6/18 21:23<br/>
@@ -12,8 +14,8 @@ public class PersonTransDTO {
     private Long birth;
     private String auditStatus;
     private Integer processStatus;
-
     private Integer auditStatusInt;
+    private BigDecimal happenPlaceGISLon;
 
     public Long getId() {
         return id;
@@ -69,5 +71,13 @@ public class PersonTransDTO {
 
     public void setAuditStatusInt(Integer auditStatusInt) {
         this.auditStatusInt = auditStatusInt;
+    }
+
+    public BigDecimal getHappenPlaceGISLon() {
+        return happenPlaceGISLon;
+    }
+
+    public void setHappenPlaceGISLon(BigDecimal happenPlaceGISLon) {
+        this.happenPlaceGISLon = happenPlaceGISLon;
     }
 }

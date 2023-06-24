@@ -4,7 +4,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -29,6 +29,7 @@ public class Person {
     private Integer addressId;
     private String auditStauts;
     private Integer processStatus;
+    private BigDecimal happenPlaceGISLon;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,6 +100,14 @@ public class Person {
         this.processStatus = processStatus;
     }
 
+    public BigDecimal getHappenPlaceGISLon() {
+        return happenPlaceGISLon;
+    }
+
+    public void setHappenPlaceGISLon(BigDecimal happenPlaceGISLon) {
+        this.happenPlaceGISLon = happenPlaceGISLon;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -110,6 +119,7 @@ public class Person {
                 ", addressId=" + addressId +
                 ", auditStauts='" + auditStauts + '\'' +
                 ", processStatus=" + processStatus +
+                ", happenPlaceGISLon=" + happenPlaceGISLon +
                 '}';
     }
 }

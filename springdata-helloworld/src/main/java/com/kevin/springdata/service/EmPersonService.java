@@ -128,7 +128,7 @@ public class EmPersonService {
     }
 
     public List<PersonTransDTO> tEntityTransList3(List<Integer> ids) {
-        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus from t_person where id in (:ids)";
+        String sql = "select id, last_name as lastName, email, birth, audit_status as auditStatus, process_status as processStatus, happenPlaceGISLon from t_person where id in (:ids)";
         QueryObject queryObject = new QueryObject();
         queryObject.setIds(ids);
         queryObject.setParam1("test");  // 无用参数，无需序列化到map里
